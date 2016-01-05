@@ -1,8 +1,8 @@
 # OpenVPN-Wifi-Access-Point-for-Raspberry-Pi
 OpenVPN Wifi Access Point for Raspberry Pi
 
-This is a bash script based on "Hotspot – WiFi Access Point" from JACEK TOKAR.
-Link to the original script: http://raspberry-at-home.com/hotspot-wifi-access-point/
+*This is a bash script based on "Hotspot – WiFi Access Point" from JACEK TOKAR.* <br>
+*Link to the original script: http://raspberry-at-home.com/hotspot-wifi-access-point/*<br>
 
 This script installs a Wifi Access Point on your Raspberry Pi which tunnels your traffic through OpenVPN.
 Additionally it's possible to install VPNBOOK.com OpenVPN certificates.
