@@ -8,7 +8,7 @@ This script installs a Wifi Access Point on your Raspberry Pi which tunnels your
 Additionally it's possible to install VPNBOOK.com OpenVPN certificates.
 
 Hardware 
-- Raspberry Pi model B+ (or B)- Ethernet is required
+- Raspberry Pi Version 1 or 2
 - Ethernet cable
 - WiFi adapter - Not all WiFi adapters work
 - SD Card (4GB or greater) with Raspbian on it
