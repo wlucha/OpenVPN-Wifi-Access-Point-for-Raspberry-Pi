@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 #changes in version 1.1
 #	- setup verifies WPA password length
 #	- RTL8192CU added as the one needing special hostapd
@@ -12,14 +12,14 @@
 
 #variables init
 run_time=`date +%Y%m%d%H%M`
-post_link="http://http://raspberry-at-home.com/hotspot-wifi-access-point/"
+post_link="http://raspberry-at-home.com/hotspot-wifi-access-point/"
 log_file="ap_setup_log.${run_time}"
 
 cat /dev/null > ${log_file}
 
 #  AP settings ##############################################  CHANGE THIS (if needed)#
 
-AP_CHANNEL=1
+AP_CHANNEL=6
 
 # /AP settings ############################################## /CHANGE THIS #
 #file info & disclaimer
@@ -69,6 +69,7 @@ echo "Updating repositories..."
 apt-get update
 
 read -p "Please provide your new SSID to be broadcasted by RPi (i.e. My_Raspi_AP): " AP_SSID
+echo ""
 read -s -p "Please provide password for your new wireless network (8-63 characters): " AP_WPA_PASSPHRASE
 echo ""
 if [ `echo $AP_WPA_PASSPHRASE | wc -c` -lt 8 ] || [ `echo $AP_WPA_PASSPHRASE | wc -c` -gt 63 ]; then
@@ -133,9 +134,9 @@ read -p "Please provide your new AP network (i.e. 192.168.10.X). Remember to put
 if [ `echo ${NETWORK} | grep X$ | wc -l` -eq 0 ]; then
 	echo "Invalid AP network provided... No X was found at the end of you input. Setup will now exit."
 	exit 4
-fi	
+fi
 AP_ADDRESS=`echo ${NETWORK} | tr \"X\" \"1\"`
-AP_UPPER_ADDR=`echo ${NETWORK} | tr \"X\" \"90\"`
+AP_UPPER_ADDR=`echo ${NETWORK} | tr \"XX\" \"90\"`
 AP_LOWER_ADDR=`echo ${NETWORK} | tr \"X\" \"2\"`
 SUBNET=`echo ${NETWORK} | tr \"X\" \"0\"`
 
@@ -264,33 +265,33 @@ iptables -A FORWARD -i wlan0 -o tun0 -j ACCEPT
 sh -c "iptables-save > /etc/iptables.ipv4.nat"
 
 # OpenVPN and VPNBOOK installation
-read -n 1 -p "Would you like to install OpenVPN? (y/n): " openvpn_answer  
-if [ ${openvpn_answer,,} = "y" ]; then      
-    echo "OpenVPN Installation"
-    sudo apt-get install openvpn
+read -n 1 -p "\nWould you like to install OpenVPN? (y/n): " openvpn_answer
+if [ ${openvpn_answer,,} = "y" ]; then
+    echo "\nOpenVPN Installation"
+    sudo apt-get -y install openvpn
     sudo service openvpn stop
 
-    read -n 1 -p "Would you like to use VPNBOOK.com? (y/n): " vpnbook_answer  
-    if [ ${vpnbook_answer,,} = "y" ]; then                                                         | tee -a ${log_file}
-            echo "Download VPNBook EU-Server Certificates"                                         | tee -a ${log_file}
-            cd /tmp                                                                                | tee -a ${log_file}
-            wget http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-Euro1.zip         | tee -a ${log_file}
-            unzip VPNBook.com-OpenVPN-Euro1.zip                                                    | tee -a ${log_file}
+    read -n 1 -p "\nWould you like to use VPNBOOK.com? (y/n): " vpnbook_answer
+    if [ ${vpnbook_answer,,} = "y" ]; then
+            echo "\nDownload VPNBook EU-Server Certificates"
+            cd /tmp
+            wget http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-Euro1.zip
+            unzip VPNBook.com-OpenVPN-Euro1.zip
             mv vpnbook-euro1-tcp443.ovpn /etc/openvpn/openvpn.conf
-            rm VPNBook.com-OpenVPN-Euro1.zip                                                       | tee -a ${log_file}
+            rm VPNBook.com-OpenVPN-Euro1.zip
             touch /etc/openvpn/login.conf
             sed -i -e 's/'"auth-user-pass"'/'"auth-user-pass login.conf"'/g' /etc/openvpn/openvpn.conf
             echo "vpnbook"                                 >> /etc/openvpn/login.conf
             echo "WU3rubre"                                >> /etc/openvpn/login.conf
     else
-            echo "You can still use your own VPN Server, just copy the .conf file to /etc/openvpn and run 'sudo service openvpn restart'"  | tee -a ${log_file}
+            echo "\nYou can still use your own VPN Server, just copy the .conf file to /etc/openvpn and run 'sudo service openvpn restart'"  | tee -a ${log_file}
     fi
 
 else
-    echo "Okay!"
+    echo "\nOkay!"
 fi
 
-echo "Configure: /etc/network/interfaces"                                                       | tee -a ${log_file} 
+echo "Configure: /etc/network/interfaces" 
 echo "auto ${NIC}"                                         >>  /etc/network/interfaces
 echo "allow-hotplug ${NIC}"                                >> /etc/network/interfaces
 echo "iface ${NIC} inet static"                           >> /etc/network/interfaces
@@ -321,7 +322,7 @@ echo "sudo service hostapd restart"                     >> /etc/rc.local
 echo "sudo service isc-dhcp-server restart"             >> /etc/rc.local
 
 echo ""                                                                                        | tee -a ${log_file}
-read -n 1 -p "Would you like to start AP on boot? (y/n): " startup_answer                       
+read -n 1 -p "Would you like to start AP on boot? (y/n): " startup_answer
 echo ""
 if [ ${startup_answer,,} = "y" ]; then
         echo "Configure: startup"                                                              | tee -a ${log_file}
@@ -334,9 +335,9 @@ else
 fi
 
 echo "Your new IP is:"
-curl --interface tun0 freegeoip.net/json/
+wget http://ipinfo.io/ip -qO -
 
-read -n 1 -p "Reboot necessary: Would you like to restart your Raspberry Pi now? (y/n): " reboot_answer                       
+read -n 1 -p "Reboot necessary: Would you like to restart your Raspberry Pi now? (y/n): " reboot_answer
 echo ""
 if [ ${reboot_answer,,} = "y" ]; then
        shutdown -r now                                                              | tee -a ${log_file}
