@@ -4,6 +4,8 @@ OpenVPN Wifi Access Point for Raspberry Pi
 *This is a bash script based on "Hotspot – WiFi Access Point" from JACEK TOKAR.* <br>
 *Link to the original script: http://raspberry-at-home.com/hotspot-wifi-access-point/*<br>
 
+<h2>Description</h2>
+
 This script installs a Wifi Access Point on your Raspberry Pi which tunnels your traffic through OpenVPN.<br>
 Additionally it's possible to install VPNBOOK.com OpenVPN certificates.<br>
 
@@ -25,17 +27,17 @@ Additionally it's possible to install VPNBOOK.com OpenVPN certificates.<br>
 
 <h2>Installation</h2>
 - Download the script to your Raspberry Pi
-- chmod +x openvpn_gateway.sh
-- sudo ./openvpn_gateway.sh
+- `chmod +x openvpn_gateway.sh`
+- `sudo ./openvpn_gateway.sh`
 
 <h2>Troubleshooting</h2>
-- sudo service hostapd status
-- sudo service isc-dhcp-server status
-- sudo hostapd -d /etc/hostapd/hostapd.conf
-- iw list
+- `sudo service hostapd status`
+- `sudo service isc-dhcp-server status`
+- `sudo hostapd -d /etc/hostapd/hostapd.conf`
+- `iw list`
 - For some reason, sometimes tun1 is used instead tun0, therefore you need to change the iptables rules to:
-  - sudo iptables --flush
-  - sudo iptables --list
-  - sudo iptables -t nat -A POSTROUTING -o tun1 -j MASQUERADE
-  - sudo iptables -A FORWARD -i tun1 -o wlan1 -m state --state RELATED,ESTABLISHED -j ACCEPT
-  - sudo iptables -A FORWARD -i wlan0 -o tun1 -j ACCEPT
+  - `sudo iptables --flush`
+  - `sudo iptables --list`
+  - `sudo iptables -t nat -A POSTROUTING -o tun1 -j MASQUERADE`
+  - `sudo iptables -A FORWARD -i tun1 -o wlan1 -m state --state RELATED,ESTABLISHED -j ACCEPT`
+  - `sudo iptables -A FORWARD -i wlan0 -o tun1 -j ACCEPT`
