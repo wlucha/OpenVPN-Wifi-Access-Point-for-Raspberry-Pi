@@ -39,5 +39,5 @@ Additionally it's possible to install VPNBOOK.com OpenVPN certificates.<br>
   - `sudo iptables --flush`
   - `sudo iptables --list`
   - `sudo iptables -t nat -A POSTROUTING -o tun1 -j MASQUERADE`
-  - `sudo iptables -A FORWARD -i tun1 -o wlan1 -m state --state RELATED,ESTABLISHED -j ACCEPT`
+  - `sudo iptables -A FORWARD -i tun1 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT`
   - `sudo iptables -A FORWARD -i wlan0 -o tun1 -j ACCEPT`
